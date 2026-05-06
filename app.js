@@ -122,7 +122,7 @@ app.get('/tasks/priority/:level', (req, res) => {
 app.get('/tasks/:id', (req, res) => {
   const id = parseTaskId(req.params.id);
   if (id === null) {
-    return res.status(404).json({ error: 'Task not found' });
+    return res.status(400).json({ error: 'Invalid task id' });
   }
 
   const task = tasks.find((item) => item.id === id);
@@ -136,7 +136,7 @@ app.get('/tasks/:id', (req, res) => {
 app.put('/tasks/:id', (req, res) => {
   const id = parseTaskId(req.params.id);
   if (id === null) {
-    return res.status(404).json({ error: 'Task not found' });
+    return res.status(400).json({ error: 'Invalid task id' });
   }
 
   if (!isValidTaskPayload(req.body)) {
@@ -169,7 +169,7 @@ app.put('/tasks/:id', (req, res) => {
 app.delete('/tasks/:id', (req, res) => {
   const id = parseTaskId(req.params.id);
   if (id === null) {
-    return res.status(404).json({ error: 'Task not found' });
+    return res.status(400).json({ error: 'Invalid task id' });
   }
 
   const taskIndex = tasks.findIndex((item) => item.id === id);
@@ -184,7 +184,7 @@ app.delete('/tasks/:id', (req, res) => {
 if (require.main === module) {
   app.listen(port, (err) => {
     if (err) {
-      return console.log('Something bad happened', err);
+      return console.error('Something bad happened', err);
     }
     console.log(`Server is listening on ${port}`);
   });
